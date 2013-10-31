@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<userRecords xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://com/exlibris/digitool/repository/extsystem/xmlbeans">
+<userRecord>
+<userDetails>
+<pinNumber xsi:nil="true"/>
+<jobTitle xsi:nil="true"/>
+<firstName>Rachel</firstName>
+<middleName>Rose</middleName>
+<lastName>Aitken</lastName>
+<status>Active</status>
+<recordType>Public</recordType>
+<expiryDate>20141021</expiryDate>
+<userType>Internal</userType>
+<defaultLanguage>en</defaultLanguage>
+<password xsi:nil="true"/>
+<jobDescription xsi:nil="true"/>
+<userGroup>STAFF</userGroup>
+<userName>raitken</userName>
+<websSiteUrl xsi:nil="true"/>
+<purgeDate>20141021</purgeDate>
+<gender>Female</gender>
+<campusCode>Dunedin</campusCode>
+</userDetails>
+<owneredEntity>
+<creationDate xsi:nil="true"/>
+<modificationDate xsi:nil="true"/>
+<createdBy>SYSTEM</createdBy>
+<modifiedBy>SYSTEM</modifiedBy>
+</owneredEntity>
+<userAddressList>
+<userAddress>
+<line1>Otago Polytechnic</line1>
+<line2>Forth Street</line2>
+<line3>Dunedin</line3>
+<line4 xsi:nil="true"/>
+<line5 xsi:nil="true"/>
+<country xsi:nil="true"/>
+<city xsi:nil="true"/>
+<postalcode xsi:nil="true"/>
+<stateProvince xsi:nil="true"/>
+<types>
+<userAddressTypes>work</userAddressTypes>
+</types>
+</userAddress>
+<userEmail preferred="true">
+<description xsi:nil="true"/>
+<email>raitken@op.ac.nz</email>
+<types>
+<userEmailTypes>work</userEmailTypes>
+</types>
+</userEmail>
+</userAddressList>
+<userNoteList xsi:nil="true"/>
+<userBlockList>
+</userBlockList>
+<userStatisticalCategoriesList>
+<userCategory>
+<owneredEntity>
+<creationDate xsi:nil="true"/>
+<modificationDate xsi:nil="true"/>
+<createdBy>SYSTEM</createdBy>
+<modifiedBy>SYSTEM</modifiedBy>
+</owneredEntity>
+<statisticalCategory>0GS</statisticalCategory>
+</userCategory>
+</userStatisticalCategoriesList>
+</userRecord>
+<userRecord>
+<userDetails>
+<pinNumber xsi:nil="true"/>
+<jobTitle xsi:nil="true"/>
+<firstName>Natalie</firstName>
+<middleName>Maria</middleName>
+<lastName>Sames</lastName>
+<status>Active</status>
+<recordType>Public</recordType>
+<expiryDate>20140104</expiryDate>
+<userType>Internal</userType>
+<defaultLanguage>en</defaultLanguage>
+<password xsi:nil="true"/>
+<jobDescription xsi:nil="true"/>
+<userGroup>STUDENT</userGroup>
+<userName>nsames1</userName>
+<websSiteUrl xsi:nil="true"/>
+<purgeDate>20140104</purgeDate>
+<gender>Female</gender>
+<campusCode>Dunedin</campusCode>
+</userDetails>
+<owneredEntity>
+<creationDate>20130220</creationDate>
+<modificationDate>20130220</modificationDate>
+<createdBy>SYSTEM</createdBy>
+<modifiedBy>SYSTEM</modifiedBy>
+</owneredEntity>
+<userIdentifiers/>
+<userAddressList>
+<userAddress>
+<line1>City College</line1>
+<line2>PO Box 6065</line2>
+<line3>Dunedin</line3>
+<line4 xsi:nil="true"/>
+<line5 xsi:nil="true"/>
+<country xsi:nil="true"/>
+<city xsi:nil="true"/>
+<postalcode xsi:nil="true"/>
+<stateProvince xsi:nil="true"/>
+<types>
+<userAddressTypes>school</userAddressTypes>
+</types>
+</userAddress>
+<userAddress>
+<line1>5 Loon Street</line1>
+<line2>Mount Eden</line2>
+<line3>Auckland</line3>
+<line4 xsi:nil="true"/>
+<line5 xsi:nil="true"/>
+<country xsi:nil="true"/>
+<city xsi:nil="true"/>
+<postalcode xsi:nil="true"/>
+<stateProvince xsi:nil="true"/>
+<types>
+<userAddressTypes>home</userAddressTypes>
+</types>
+</userAddress>
+<userPhone preferred="true">
+<phone>034795104</phone>
+<types>
+<userPhoneTypes>school</userPhoneTypes>
+</types>
+</userPhone>
+<userPhone preferred="false">
+<phone>034453673</phone>
+<types>
+<userPhoneTypes>home</userPhoneTypes>
+</types>
+</userPhone>
+<userEmail preferred="true">
+<description xsi:nil="true"/>
+<email>nsames1@student.op.ac.nz</email>
+<types>
+<userEmailTypes>school</userEmailTypes>
+</types>
+</userEmail>
+</userAddressList>
+<userNoteList xsi:nil="true"/>
+<userBlockList>
+</userBlockList>
+<userStatisticalCategoriesList>
+<userCategory>
+<owneredEntity>
+<creationDate>20130220</creationDate>
+<modificationDate>20130220</modificationDate>
+<createdBy>SYSTEM</createdBy>
+<modifiedBy>SYSTEM</modifiedBy>
+</owneredEntity>
+<statisticalCategory>8TE</statisticalCategory>
+</userCategory>
+</userStatisticalCategoriesList>
+</userRecord>
+</userRecords>
