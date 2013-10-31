@@ -12,6 +12,12 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
  
+/**
+ * Reads the sample files, and calls the web service for each user record
+ * 
+ * @author michel
+ *
+ */
 public class ReadXMLFile2 {
 	
 	
