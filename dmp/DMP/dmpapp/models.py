@@ -5,9 +5,9 @@ class Person(models.Model):
     name = models.CharField(max_length=30)
     email = models.CharField(max_length=40)
     phone = models.CharField(max_length=40)
-def __str__(self):              
-    return self.name
-    
+    def __str__(self):              
+        return self.name
+   
     
 class Project(models.Model):
     name = models.CharField(max_length=30)
@@ -19,6 +19,10 @@ class Project(models.Model):
     funding_allocation = models.CharField(max_length=30)
     research_code = models.CharField(max_length=30)
     member= models.ManyToManyField(Person, related_name='project_member')
+    def __str__(self):              
+        return self.name   
+    def get_start_date(self):
+        return self.start_date
 
 
     
@@ -44,6 +48,8 @@ class Dataset(models.Model):
     release_date = models.DateTimeField('release date')
     access_permission = models.CharField(max_length=30)
     method_of_sharing = models.CharField(max_length=30)
+    def __str__(self):              
+        return self.name   
 
     
 class Ethics_Document(models.Model):
@@ -52,6 +58,8 @@ class Ethics_Document(models.Model):
     approval_number = models.CharField(max_length=30)
     consenting_body = models.CharField(max_length=30)
     approval_date = models.DateTimeField('approval date')
+    def __str__(self):              
+        return self.name   
 
 
     
