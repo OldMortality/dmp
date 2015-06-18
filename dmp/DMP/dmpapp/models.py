@@ -18,7 +18,7 @@ class Project(models.Model):
     funding_source = models.CharField(max_length=100)
     funding_allocation = models.CharField(max_length=30)
     research_code = models.CharField(max_length=30)
-    member= models.ManyToManyField(Person, related_name='project_member')
+    member = models.ManyToManyField(Person, related_name='project_member')
     def __str__(self):              
         return self.name   
     def get_start_date(self):

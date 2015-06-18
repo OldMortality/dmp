@@ -20,7 +20,8 @@ class IndexView(LoggedInMixin,generic.ListView):
     context_object_name = 'project_list'
     
     def get_queryset(self):
-        return Project.objects.all()
+        return Project.objects.filter(member__name=self.request.user)
+        #return Project.objects.all()
         #return project_list = Project.objects.filter(name__startswith=this_email)
      
     #request.session['email']="Dinosaurs"
@@ -34,5 +35,8 @@ class ProjectDetailView(LoggedInMixin,generic.DetailView):
     
     model = Project
     template_name = 'dmpapp/projectdetail.html'
+    def get_queryset(self):
+        return Project.objects.filter(member__name=self.request.user)
+  
     
     
