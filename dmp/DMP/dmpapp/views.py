@@ -1,16 +1,38 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render
-from django.template import loader
-from django.template.context import RequestContext
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import generic
 
 from dmpapp.models import Project
 
 
+class LoggedInMixin(object):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
 # Create your views here.
-def index(request):
-    project_list = Project.objects.all()
-    template = loader.get_template('dmpapp/index.html')
-    context = RequestContext(request, {
-        'project_list': project_list,
-    })
-    return HttpResponse(template.render(context))
+
+class IndexView(LoggedInMixin,generic.ListView):
+    
+    model = Project
+    template_name = 'dmpapp/index.html'
+    context_object_name = 'project_list'
+    
+    def get_queryset(self):
+        return Project.objects.all()
+        #return project_list = Project.objects.filter(name__startswith=this_email)
+     
+    #request.session['email']="Dinosaurs"
+    #this_email = request.session.get('email')
+    #context = RequestContext(request, {
+    #    'project_list': project_list,
+    
+    #return HttpResponse(template.render(context))
+    
+class ProjectDetailView(LoggedInMixin,generic.DetailView):
+    
+    model = Project
+    template_name = 'dmpapp/projectdetail.html'
+    
+    

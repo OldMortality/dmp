@@ -1,0 +1,10 @@
+{% if project_list %}
+    <h1>Welcome to the DMP. Here is a list of projects. </h1>
+    <ul>
+    {% for project in project_list %}
+        <li><a href="/dmp/{{ project.id }}/">{{ project.description }}</a></li>
+    {% endfor %}
+    	</ul>
+	{% else %}
+    	<p>No projects are available.</p>
+{% endif %}
