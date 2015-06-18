@@ -3,6 +3,8 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 
 from dmpapp.models import Project
+from dmpapp.models import Dataset
+
 
 
 class LoggedInMixin(object):
@@ -38,5 +40,14 @@ class ProjectDetailView(LoggedInMixin,generic.DetailView):
     def get_queryset(self):
         return Project.objects.filter(member__name=self.request.user)
   
+class DatasetView(LoggedInMixin,generic.ListView):
     
+    model = Dataset
+    template_name = 'dmpapp/datasetlist.html'
+    context_object_name = 'dataset_list'
+    
+    
+    def get_queryset(self):
+        project_id = self.request.GET.get("pid")
+        return Dataset.objects.filter(project__id=project_id)  
     

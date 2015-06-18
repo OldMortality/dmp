@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/$', views.ProjectDetailView.as_view(), name='detail'),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
+    url(r'^datasets/$', views.DatasetView.as_view(), name='dataset'),
 
 ]
