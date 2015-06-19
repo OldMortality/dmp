@@ -1,0 +1,7 @@
+ 
+    <h1>Here is a list of Datasets for this project. </h1>
+    <ul>
+    {% for ds in dataset_list %}
+        <li><a href="/dmp/ds/{{ ds.id }}/">{{ ds.name }}</a></li>
+    {% endfor %}
+    	</ul>

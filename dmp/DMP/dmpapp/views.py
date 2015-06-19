@@ -49,5 +49,16 @@ class DatasetView(LoggedInMixin,generic.ListView):
     
     def get_queryset(self):
         project_id = self.request.GET.get("pid")
-        return Dataset.objects.filter(project__id=project_id)  
+        return Dataset.objects.filter(project__id=project_id).filter(
+                                      project__member__name=self.request.user)  
+        
+class DatasetDetailView(LoggedInMixin,generic.DetailView):
+    
+    model = Dataset
+    template_name = 'dmpapp/datasetdetail.html'
+    context_object_name = 'ds'
+    
+    def get_queryset(self):
+        return Dataset.objects.filter(project__member__name=self.request.user)
+  
     
