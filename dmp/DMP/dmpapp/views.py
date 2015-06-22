@@ -1,10 +1,14 @@
 from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from dmpapp.models import Project
 from dmpapp.models import Dataset
+from dmpapp.models import Project
 
+
+from .forms import NameForm
 
 
 class LoggedInMixin(object):
@@ -61,4 +65,29 @@ class DatasetDetailView(LoggedInMixin,generic.DetailView):
     def get_queryset(self):
         return Dataset.objects.filter(project__member__name=self.request.user)
   
-    
+    def postDS(self):
+        form = self.form_class(self.request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+        return render(self.request, self.template_name, {'form': form})
+
+
+def get_name(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, 'dmpapp/name.html', {'form': form})

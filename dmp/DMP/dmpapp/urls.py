@@ -10,6 +10,9 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^datasets/$', views.DatasetView.as_view(), name='dataset'),
     url(r'^ds/(?P<pk>[0-9]+)/$', views.DatasetDetailView.as_view(), name='datasetdetail'),
+    url(r'^updateds/$', views.DatasetDetailView.postDS, name='datasetdetail'),
+    url(r'^get_name/$', views.get_name, name='get_name'),
+    
     
 
 ]
