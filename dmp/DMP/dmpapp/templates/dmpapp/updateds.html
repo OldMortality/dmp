@@ -1,5 +1,13 @@
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<h1>updatedspost</h1>
 <form action="/dmp/updatedspost/" method="post">
     {% csrf_token %}
     {{ form }}
+    {% if form.start_date.errors %}
+              <span class="help-block">
+                {% for error in form.start_date.errors %}{{ error }}{% endfor %}
+              </span>
+            {% endif %}
     <input type="submit" value="Submit" />
+            
 </form>

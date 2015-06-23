@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -6,7 +7,6 @@ from django.views import generic
 
 from dmpapp.models import Dataset, DatasetForm
 from dmpapp.models import Project
-
 
 
 class LoggedInMixin(object):
@@ -75,16 +75,20 @@ class DatasetDetailView(LoggedInMixin,generic.DetailView):
 def update_ds(request,pk):
     
     form = DatasetForm(request.GET)
+    
     # this is the GET method
-    if request.method == 'POST':
-        
+    if request.method == 'GET':
+        print("update_ds")
         ds = Dataset.objects.get(id=pk)
+        print(ds)
         form = DatasetForm(instance=ds)
 
     return render(request, 'dmpapp/updateds.html', {'form': form})
 
 
 def update_dspost(request):
+    print("update_dspost")
+        
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -98,7 +102,8 @@ def update_dspost(request):
             # ...
             # redirect to a new URL:
             return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
-
+        else:
+            print(form.errors) #To see the form errors in the console. 
     
     return render(request, 'dmpapp/updateds.html', {'form': form})
 
