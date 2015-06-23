@@ -1,4 +1,6 @@
 from django.db import models 
+from django.forms.models import ModelForm
+
 
 # test 1
 class Person(models.Model):
@@ -62,6 +64,10 @@ class Ethics_Document(models.Model):
         return self.name   
 
 
+class DatasetForm(ModelForm):
+    class Meta:
+        model = Dataset
+        fields = ['name', 'project', 'owner', 'start_date', 'end_date', 'tools']
     
     
     

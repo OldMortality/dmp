@@ -4,11 +4,9 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from dmpapp.models import Dataset
+from dmpapp.models import Dataset, DatasetForm
 from dmpapp.models import Project
 
-
-from .forms import NameForm
 
 
 class LoggedInMixin(object):
@@ -74,11 +72,11 @@ class DatasetDetailView(LoggedInMixin,generic.DetailView):
         return render(self.request, self.template_name, {'form': form})
 
 
-def get_name(request):
+def update_ds(request,pk):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
+        form = DatasetForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -88,6 +86,27 @@ def get_name(request):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = NameForm()
+        ds = Dataset.objects.get(id=pk)
+        form = DatasetForm(instance=ds)
 
     return render(request, 'dmpapp/name.html', {'form': form})
+
+
+def update_dspost(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = DatasetForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            data = form.cleaned_data
+            project = data['project']
+            project_id = str(project.id)
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
+
+    
+    return render(request, 'dmpapp/name.html', {'form': form})
+
