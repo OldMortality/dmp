@@ -1,3 +1,6 @@
+from _overlapped import NULL
+
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http.response import HttpResponseRedirect
@@ -54,56 +57,41 @@ class DatasetView(LoggedInMixin,generic.ListView):
         return Dataset.objects.filter(project__id=project_id).filter(
                                       project__member__name=self.request.user)  
         
-class DatasetDetailView(LoggedInMixin,generic.DetailView):
-    
-    model = Dataset
-    template_name = 'dmpapp/datasetdetail.html'
-    context_object_name = 'ds'
-    
-    def get_queryset(self):
-        return Dataset.objects.filter(project__member__name=self.request.user)
-  
-    def postDS(self):
-        form = self.form_class(self.request.POST)
-        if form.is_valid():
-            # <process form cleaned data>
-            return HttpResponseRedirect('/success/')
-
-        return render(self.request, self.template_name, {'form': form})
 
 
+
+     
+@login_required
 def update_ds(request,pk):
-    
-    form = DatasetForm(request.GET)
-    
-    # this is the GET method
-    if request.method == 'GET':
+        
+        # this is the GET method
         print("update_ds")
         ds = Dataset.objects.get(id=pk)
-        print(ds)
         form = DatasetForm(instance=ds)
+    
+        print(ds)
+         
+        return render(request,'dmpapp/updateds.html', {'form': form})
 
-    return render(request, 'dmpapp/updateds.html', {'form': form})
 
-
+ 
 def update_dspost(request):
     print("update_dspost")
         
     # if this is a POST request we need to process the form data
-    if request.method == 'POST':
+         
         # create a form instance and populate it with data from the request:
-        form = DatasetForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            data = form.cleaned_data
-            project = data['project']
-            project_id = str(project.id)
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
-        else:
-            print(form.errors) #To see the form errors in the console. 
+    form = DatasetForm(request.POST)
+    print(form)
+    # check whether it's valid:
+    if form.is_valid():
+        data = form.cleaned_data
+        project = data['project']
+        project_id = str(project.id)
+        #  process the data in form.cleaned_data as required
+        return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
+    else:
+        print(form.errors) #To see the form errors in the console. 
     
-    return render(request, 'dmpapp/updateds.html', {'form': form})
+        return render(request, 'dmpapp/updateds.html', {'form': form})
 
