@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from dmpapp.models import Dataset, DatasetForm
+from dmpapp.models import Dataset, DatasetForm, ProjectForm
 from dmpapp.models import Project
 
 
@@ -57,10 +57,39 @@ class DatasetView(LoggedInMixin,generic.ListView):
         return Dataset.objects.filter(project__id=project_id).filter(
                                       project__member__name=self.request.user)  
         
+@login_required
+def project_detail(request,pk):
+    print("update_ds")
+    project = Project.objects.get(id=pk)
+    form = ProjectForm(instance=project)
+    form.id = project.id
+    print("fred")
+    print(project.id)
+    print("fred")
+    
+    return render(request,'dmpapp/update_project.html', {'form': form})
+
+def project_detail_post(request):
+    print("project_detail_post")
+    form = ProjectForm(request.POST)
+    print(form)
+    # check whether it's valid:
+    
+    if form.is_valid():
+        #data = form.cleaned_data
+        #project = data['project']
+         
+         
+        form.save()
+        
+        #  process the data in form.cleaned_data as required
+        return HttpResponseRedirect('/dmp/')
+    else:
+        print(form.errors) #To see the form errors in the console. 
+        return HttpResponseRedirect('/dmp/')
 
 
-
-     
+         
 @login_required
 def update_ds(request,pk):
         
@@ -74,7 +103,7 @@ def update_ds(request,pk):
         return render(request,'dmpapp/updateds.html', {'form': form})
 
 
- 
+@login_required
 def update_dspost(request):
     print("update_dspost")
         
@@ -88,6 +117,8 @@ def update_dspost(request):
         data = form.cleaned_data
         project = data['project']
         project_id = str(project.id)
+        form.save()
+        
         #  process the data in form.cleaned_data as required
         return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
     else:

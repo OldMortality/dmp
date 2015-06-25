@@ -6,8 +6,8 @@ from django.forms.models import ModelForm
 # test 1
 class Person(models.Model):
     name = models.CharField(max_length=30)
-    email = models.CharField(max_length=40)
-    phone = models.CharField(max_length=40)
+    email = models.CharField(max_length=40,null=True)
+    phone = models.CharField(max_length=40,null=True)
     def __str__(self):              
         return self.name
    
@@ -17,11 +17,12 @@ class Project(models.Model):
     principal =  models.ForeignKey(Person)
     start_date = models.DateField('start date')
     end_date = models.DateField('end date')
-    description = models.CharField(max_length=100)
-    funding_source = models.CharField(max_length=100)
-    funding_allocation = models.CharField(max_length=30)
-    research_code = models.CharField(max_length=30)
+    description = models.CharField(max_length=100,null=True)
+    funding_source = models.CharField(max_length=100,null=True)
+    funding_allocation = models.CharField(max_length=30,null=True)
+    research_code = models.CharField(max_length=30,null=True)
     member = models.ManyToManyField(Person, related_name='project_member')
+    # hack to get id into the posted form, so I can redirect correctly
     def __str__(self):              
         return self.name   
     def get_start_date(self):
@@ -31,26 +32,27 @@ class Project(models.Model):
     
 class Dataset(models.Model):
     name = models.CharField(max_length=30)
+    description = models.CharField(max_length=30)
     project = models.ForeignKey(Project)
     owner = models.ForeignKey(Person, related_name='ds_owner')
     creator = models.ForeignKey(Person, related_name='ds_creator')
-    start_date = models.DateField('start date')
-    end_date = models.DateField('end date')
-    tools = models.CharField(max_length=30)
-    coverage_start_date = models.DateField('coverage start date')
-    coverage_end_date = models.DateField('coverage end date')
-    coverage_space = models.CharField(max_length=30)
-    format = models.CharField(max_length=30)
-    keywords = models.CharField(max_length=30)
-    citations = models.CharField(max_length=30)
-    host_department = models.CharField(max_length=30)
-    location = models.CharField(max_length=30)
-    number_of_files = models.IntegerField(default=0)
-    space = models.CharField(max_length=30)
-    retention_end_date = models.DateField('retention end date')
-    release_date = models.DateField('release date')
-    access_permission = models.CharField(max_length=30)
-    method_of_sharing = models.CharField(max_length=30)
+    start_date = models.DateField('start date',null=True)
+    end_date = models.DateField('end date',null=True)
+    tools = models.CharField(max_length=30,null=True)
+    coverage_start_date = models.DateField('coverage start date',null=True)
+    coverage_end_date = models.DateField('coverage end date',null=True)
+    coverage_space = models.CharField(max_length=30,null=True)
+    format = models.CharField(max_length=30,null=True)
+    keywords = models.CharField(max_length=30,null=True)
+    citations = models.CharField(max_length=30,null=True)
+    host_department = models.CharField(max_length=30,null=True)
+    location = models.CharField(max_length=30,null=True)
+    number_of_files = models.IntegerField(default=0,null=True)
+    space = models.CharField(max_length=30,null=True)
+    retention_end_date = models.DateField('retention end date',null=True)
+    release_date = models.DateField('release date',null=True)
+    access_permission = models.CharField(max_length=30,null=True)
+    method_of_sharing = models.CharField(max_length=30,null=True)
     def __str__(self):              
         return self.name   
 
@@ -68,9 +70,19 @@ class Ethics_Document(models.Model):
 class DatasetForm(ModelForm):
     class Meta:
         model = Dataset
-        fields = ['name', 'project', 'owner', 'start_date', 'end_date', 'tools']
-        widgets = {'start_date': AdminDateWidget } 
+        fields = ['name', 'project', 'owner','description', 'start_date', 'end_date',
+                  'tools','coverage_start_date','coverage_end_date','coverage_space',
+                  'format','keywords','citations','host_department','location', 
+                  'number_of_files','space','retention_end_date','release_date',  
+                  'access_permission','method_of_sharing']  
+
        
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project        
+        fields = ['id','name','principal', 'start_date', 'end_date', 'description',
+                  'funding_source','funding_allocation','research_code','member']  
     
     
+
     
