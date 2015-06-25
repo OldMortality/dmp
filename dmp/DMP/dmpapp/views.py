@@ -59,19 +59,38 @@ class DatasetView(LoggedInMixin,generic.ListView):
         
 @login_required
 def project_detail(request,pk):
-    print("update_ds")
     project = Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
     form.id = project.id
-    print("fred")
-    print(project.id)
-    print("fred")
+    if request.method == 'GET':
+        return render(request,'dmpapp/update_project.html', {'form': form})
+    if request.method == 'POST':
+        print("project_detail_post")
     
-    return render(request,'dmpapp/update_project.html', {'form': form})
+        form = ProjectForm(request.POST,instance=project)
+        print(form)
+        # check whether it's valid:
+    
+        if form.is_valid():
+         
+            form.save()
+            print("update done")
+        
+        #  process the data in form.cleaned_data as required
+            return HttpResponseRedirect('/dmp')
+        else:
+            print("form errors")
+            print(form.errors) #To see the form errors in the console. 
+            return render(request, 'dmpapp/update_project.html', {'form': form})
 
-def project_detail_post(request):
+            return HttpResponseRedirect('/dmp/')
+
+
+def project_detail_post(request,pk):
     print("project_detail_post")
-    form = ProjectForm(request.POST)
+    f = Project.objects.get(id=pk)
+    
+    form = ProjectForm(request.POST, instance=f)
     print(form)
     # check whether it's valid:
     
@@ -81,11 +100,15 @@ def project_detail_post(request):
          
          
         form.save()
+        print("update done")
         
         #  process the data in form.cleaned_data as required
         return HttpResponseRedirect('/dmp/')
     else:
+        print("form errors")
         print(form.errors) #To see the form errors in the console. 
+        return render(request, 'dmpapp/update_project.html', {'form': form})
+
         return HttpResponseRedirect('/dmp/')
 
 

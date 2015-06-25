@@ -15,8 +15,8 @@ class Person(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=30)
     principal =  models.ForeignKey(Person)
-    start_date = models.DateField('start date')
-    end_date = models.DateField('end date')
+    start_date = models.DateField('start date',null=True)
+    end_date = models.DateField('end date',null=True)
     description = models.CharField(max_length=100,null=True)
     funding_source = models.CharField(max_length=100,null=True)
     funding_allocation = models.CharField(max_length=30,null=True)
@@ -31,11 +31,11 @@ class Project(models.Model):
 
     
 class Dataset(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,null=True)
+    description = models.CharField(max_length=30,null=True)
     project = models.ForeignKey(Project)
-    owner = models.ForeignKey(Person, related_name='ds_owner')
-    creator = models.ForeignKey(Person, related_name='ds_creator')
+    owner = models.ForeignKey(Person, related_name='ds_owner',null=True)
+    creator = models.ForeignKey(Person, related_name='ds_creator',null=True)
     start_date = models.DateField('start date',null=True)
     end_date = models.DateField('end date',null=True)
     tools = models.CharField(max_length=30,null=True)
