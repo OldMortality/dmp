@@ -7,8 +7,8 @@ from django.forms.models import ModelForm, ModelMultipleChoiceField
 # test 1
 class Person(models.Model):
     name = models.CharField(max_length=30)
-    email = models.CharField(max_length=40,null=True)
-    phone = models.CharField(max_length=40,null=True)
+    email = models.CharField(max_length=40,null=True,blank=True)
+    phone = models.CharField(max_length=40,null=True,blank=True)
     def __str__(self):              
         return self.name
    
@@ -16,12 +16,12 @@ class Person(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=30)
     principal =  models.ForeignKey(Person)
-    start_date = models.DateField('start date',null=True)
-    end_date = models.DateField('end date',null=True)
-    description = models.CharField(max_length=100,null=True)
-    funding_source = models.CharField(max_length=100,null=True)
-    funding_allocation = models.CharField(max_length=30,null=True)
-    research_code = models.CharField(max_length=30,null=True)
+    start_date = models.DateField('start date',null=True,blank=True)
+    end_date = models.DateField('end date',null=True,blank=True)
+    description = models.CharField(max_length=100,null=True,blank=True)
+    funding_source = models.CharField(max_length=100,null=True,blank=True)
+    funding_allocation = models.CharField(max_length=30,null=True,blank=True)
+    research_code = models.CharField(max_length=30,null=True,blank=True)
     member = models.ManyToManyField(Person, related_name='project_member')
     # hack to get id into the posted form, so I can redirect correctly
     def __str__(self):              
@@ -32,28 +32,28 @@ class Project(models.Model):
 
     
 class Dataset(models.Model):
-    name = models.CharField(max_length=30,null=True)
-    description = models.CharField(max_length=30,null=True)
+    name = models.CharField(max_length=30,null=True,blank=True)
+    description = models.CharField(max_length=30,null=True,blank=True)
     project = models.ForeignKey(Project)
-    owner = models.ForeignKey(Person, related_name='ds_owner',null=True)
-    creator = models.ForeignKey(Person, related_name='ds_creator',null=True)
-    start_date = models.DateField('start date',null=True)
-    end_date = models.DateField('end date',null=True)
-    tools = models.CharField(max_length=30,null=True)
-    coverage_start_date = models.DateField('coverage start date',null=True)
-    coverage_end_date = models.DateField('coverage end date',null=True)
-    coverage_space = models.CharField(max_length=30,null=True)
-    format = models.CharField(max_length=30,null=True)
-    keywords = models.CharField(max_length=30,null=True)
-    citations = models.CharField(max_length=30,null=True)
-    host_department = models.CharField(max_length=30,null=True)
-    location = models.CharField(max_length=30,null=True)
-    number_of_files = models.IntegerField(default=0,null=True)
-    space = models.CharField(max_length=30,null=True)
-    retention_end_date = models.DateField('retention end date',null=True)
-    release_date = models.DateField('release date',null=True)
-    access_permission = models.CharField(max_length=30,null=True)
-    method_of_sharing = models.CharField(max_length=30,null=True)
+    owner = models.ForeignKey(Person, related_name='ds_owner',null=True,blank=True)
+    creator = models.ForeignKey(Person, related_name='ds_creator',null=True,blank=True)
+    start_date = models.DateField('start date',null=True,blank=True)
+    end_date = models.DateField('end date',null=True,blank=True)
+    tools = models.CharField(max_length=30,null=True,blank=True)
+    coverage_start_date = models.DateField('coverage start date',null=True,blank=True)
+    coverage_end_date = models.DateField('coverage end date',null=True,blank=True)
+    coverage_space = models.CharField(max_length=30,null=True,blank=True)
+    format = models.CharField(max_length=30,null=True,blank=True)
+    keywords = models.CharField(max_length=30,null=True,blank=True)
+    citations = models.CharField(max_length=30,null=True,blank=True)
+    host_department = models.CharField(max_length=30,null=True,blank=True)
+    location = models.CharField(max_length=30,null=True,blank=True)
+    number_of_files = models.IntegerField(default=0,null=True,blank=True)
+    space = models.CharField(max_length=30,null=True,blank=True)
+    retention_end_date = models.DateField('retention end date',null=True,blank=True)
+    release_date = models.DateField('release date',null=True,blank=True)
+    access_permission = models.CharField(max_length=30,null=True,blank=True)
+    method_of_sharing = models.CharField(max_length=30,null=True,blank=True)
     def __str__(self):              
         return self.name   
 

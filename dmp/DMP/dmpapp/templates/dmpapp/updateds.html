@@ -1,13 +1,24 @@
-<script type="text/javascript" src="/admin/jsi18n/"></script>
 <h1>updatedspost</h1>
-<form action="/dmp/updatedspost/" method="post">
+
+<form action="/dmp/updateds/{{ form.id }}/" method="POST">
     {% csrf_token %}
     {{ form }}
+    {% if form.errors %}
+    	<h1>errors</h1>
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-error">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+     
+{% endif %}
     {% if form.start_date.errors %}
-              <span class="help-block">
-                {% for error in form.start_date.errors %}{{ error }}{% endfor %}
-              </span>
-            {% endif %}
-    <input type="submit" value="Submit" />
+     	<span class="help-block">
+        {% for error in form.start_date.errors %}{{ error }}{% endfor %}
+    {% endif %}
+     
+    <input type="submit" value="Save" />
             
 </form>

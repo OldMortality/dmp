@@ -1,9 +1,10 @@
  
     <h1>Here is a list of Datasets for this project. </h1>
-    <ul>
+   
     {% for ds in dataset_list %}
-        <li><a href="/dmp/updateds/{{ ds.id }}">{{ ds.name }}</a></li>
+        <li><a href="/dmp/updateds/{{ ds.id }}/">{{ ds.name }}</a></li>
     {% endfor %}
-    	</ul>
     	<!--<a href="/dmp/ds/{{ ds.id }}/">{{ ds.name }}</a>-->
-    	
+    <form action="/dmp/updateds/"  {{ None }}  method="get">
+   		<button type="submit" value="Submit">Add a new dataset</button>
+	</form>	
