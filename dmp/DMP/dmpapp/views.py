@@ -58,10 +58,19 @@ class DatasetView(LoggedInMixin,generic.ListView):
                                       project__member__name=self.request.user)  
         
 @login_required
-def project_detail(request,pk):
-    project = Project.objects.get(id=pk)
-    form = ProjectForm(instance=project)
-    form.id = project.id
+def project_detail(request,pk=None):
+    
+    
+    
+    if pk is not None:
+        project = Project.objects.get(id=pk)
+        form = ProjectForm(instance=project)
+        form.id = project.id
+    
+    else:
+        project = None
+        form = ProjectForm()
+   
     if request.method == 'GET':
         return render(request,'dmpapp/update_project.html', {'form': form})
     if request.method == 'POST':
@@ -73,17 +82,24 @@ def project_detail(request,pk):
     
         if form.is_valid():
          
-            form.save()
-            print("update done")
+            data = form.cleaned_data
+            project_members = data['member']
+            x = project_members.filter(name=request.user)
+            if not x:
+                print("current user not in the members")
+            else:   
+            
+                form.save()
+                print("update done xx")
         
         #  process the data in form.cleaned_data as required
             return HttpResponseRedirect('/dmp')
         else:
             print("form errors")
             print(form.errors) #To see the form errors in the console. 
-            return render(request, 'dmpapp/update_project.html', {'form': form})
+            #return render(request, 'dmpapp/update_project.html', {'form': form})
 
-            return HttpResponseRedirect('/dmp/')
+            return HttpResponseRedirect('/dmp')
 
 
 def project_detail_post(request,pk):
@@ -91,16 +107,17 @@ def project_detail_post(request,pk):
     f = Project.objects.get(id=pk)
     
     form = ProjectForm(request.POST, instance=f)
-    print(form)
+    
     # check whether it's valid:
     
     if form.is_valid():
+        print("form is valid")
         #data = form.cleaned_data
         #project = data['project']
-         
+      
          
         form.save()
-        print("update done")
+        print("updates done")
         
         #  process the data in form.cleaned_data as required
         return HttpResponseRedirect('/dmp/')

@@ -1,6 +1,7 @@
+from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
 from django.db import models 
-from django.forms.models import ModelForm
+from django.forms.models import ModelForm, ModelMultipleChoiceField
 
 
 # test 1
@@ -80,9 +81,10 @@ class DatasetForm(ModelForm):
 class ProjectForm(ModelForm):
     class Meta:
         model = Project        
+        #toppings = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
         fields = ['id','name','principal', 'start_date', 'end_date', 'description',
                   'funding_source','funding_allocation','research_code','member']  
-    
+      
     
 
     
