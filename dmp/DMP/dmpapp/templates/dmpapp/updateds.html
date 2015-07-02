@@ -1,6 +1,6 @@
-<h1>updatedspost</h1>
+<h1>updateds.html</h1>
 
-<form action="/dmp/updateds/{{ form.id }}/" method="POST">
+<form action="/dmp/datasetpost/{{ form.id }}/" method="POST">
     {% csrf_token %}
     {{ form }}
     {% if form.errors %}

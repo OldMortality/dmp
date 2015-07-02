@@ -1,8 +1,12 @@
  
     <h1>Here is a list of Datasets for this project. {{ project_id }} </h1>
    
+   <table style="width:100%">
     {% for ds in dataset_list %}
-        <li><a href="/dmp/dataset/{{ ds.id }}/">{{ ds.name }}</a></li>
+    <tr>
+        <td><a href="/dmp/dataset/{{ ds.id }}/">{{ ds.name }}</td> 
+        <td><a href="/dmp/dataset_del/{{ ds.id }}/?project_id={{ project_id }}"> Remove</td>
+    </tr>    
     {% endfor %}
     
     <form action="/dmp/dataset_new/" method="get">

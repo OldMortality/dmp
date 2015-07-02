@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from dmpapp.models import Dataset, DatasetForm, ProjectForm
+from dmpapp.models import Dataset, DatasetForm, ProjectForm, Person
 from dmpapp.models import Project
 
 
@@ -27,7 +27,7 @@ class IndexView(LoggedInMixin,generic.ListView):
     context_object_name = 'project_list'
     
     def get_queryset(self):
-        return Project.objects.filter(member__name=self.request.user)
+        return Project.objects.filter(member__name=self.request.user).order_by('name')
         #return Project.objects.all()
         #return project_list = Project.objects.filter(name__startswith=this_email)
      
@@ -67,16 +67,16 @@ class DatasetView(LoggedInMixin,generic.ListView):
 
 
 @login_required
-def project_detail_new(request):
+def project_new(request):
     
-    print("project_detail_new")
+    print("project_new")
     form = ProjectForm()
     return render(request,'dmpapp/update_project.html', {'form': form})
 
 @login_required
-def project_detail_get(request,pk):
+def project_get(request,pk):
     
-    print("project_detail_get")
+    print("project_get")
     project = Project.objects.get(id=pk)
     # save project to the context
     request.session['project_id']=pk
@@ -85,9 +85,9 @@ def project_detail_get(request,pk):
     return render(request,'dmpapp/update_project.html', {'form': form})
     
 @login_required
-def project_detail_post(request,pk=None):
+def project_post(request,pk=None):
     
-    print("project_detail_post")
+    print("project_post")
      
         
     if pk is not None:
@@ -129,55 +129,6 @@ def project_detail_post(request,pk=None):
 
 
 
-         
-@login_required
-def update_ds(request,pk=None):
-    
-    print("update_ds")
-    print(request.method)
-    if pk is not None:
-        
-        print("a")
-        ds = Dataset.objects.get(id=pk)
-        print("id is " + pk)
-        form = DatasetForm(instance=ds)
-        form.id = ds.id
-    else:
-        print("b")  
-        # get project from the session
-        this_project_id = request.session.get('project_id')
-        print("the current project is")
-        print(this_project_id)
-        
-        
-        ds = None
-        form = DatasetForm()
-        form.project = Project.objects.get(id=this_project_id)
-      
-    if request.method == 'GET':
-        print("method = GET")
-        return render(request,'dmpapp/updateds.html', {'form': form})
-    if request.method == 'POST':
-        print("posting dataset")
-        form = DatasetForm(request.POST,instance=ds)
-        
-        if form.is_valid():
-            data = form.cleaned_data
-            print(data)
-            project = data['project']
-            project_id = str(project.id)
-            form.save(commit=False)
-            form.project = Project.objects.get(id=this_project_id)
-            form.save()
-            print("no errors. redirecting to dmp/datasets/?pid")
-            #  process the data in form.cleaned_data as required
-            return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
-        else:
-            print("form errors in else:")
-            print(form.errors) #To see the form errors in the console. 
-            #return HttpResponseRedirect('/dmp/updateds/' + str(ds.id)+'/')
-            form.id = pk
-            return render(request, 'dmpapp/updateds.html', {'form':form})
 
 @login_required
 def dataset_get(request,pk):
@@ -200,13 +151,63 @@ def dataset_new(request):
     this_project_id = request.GET.get('project_id')
     print("the current project is")
     print(this_project_id) 
-        
-    ds = None
-    form = DatasetForm()
-    form.project = Project.objects.get(id=this_project_id)
+    pr = Project.objects.get(id=this_project_id)
+    data = {'name': "New"  ,'project': pr.id, 'owner': request.user.id}
+    
+    form = DatasetForm(data)
       
     return render(request,'dmpapp/updateds.html', {'form': form})
     
+    
+@login_required
+def dataset_post(request,pk=None):
+    
+    print("dataset_post")
+    if pk is not None:
+        print("existing dataset")
+        ds = Dataset.objects.get(id=pk)
+        print("id is " + pk)
+        form = DatasetForm(instance=ds)
+        form.id = ds.id
+    else:
+        print("new dataset")  
+        # get project from the session
+        ds = None
+        form = DatasetForm()
+        
+    print("posting dataset")
+    form = DatasetForm(request.POST,instance=ds)
+        
+    if form.is_valid():
+        data = form.cleaned_data
+        print(data)
+        project = data['project']
+        project_id = str(project.id)
+        form.save(commit=False)
+        form.save()
+        print("no errors. redirecting to dmp/datasets/?pid")
+        #  process the data in form.cleaned_data as required
+        return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
+    else:
+        print("form errors in else:")
+        print(form.errors) #To see the form errors in the console. 
+        #return HttpResponseRedirect('/dmp/updateds/' + str(ds.id)+'/')
+        form.id = pk
+        return render(request, 'dmpapp/updateds.html', {'form':form})
+
+
+def dataset_del(request,pk):
+    
+    project_id = request.GET.get('project_id')
+    print("remove dataset" )
+    print(pk)
+    print(project_id)  
+    # get project from the session
+    this_dataset = Dataset.objects.get(id=pk)
+    this_dataset.delete()
+    return HttpResponseRedirect('/dmp/datasets/?pid=' + project_id)
+    
+
 #@login_required
 #def update_dspost(request):
 #    print("update_dspost")
