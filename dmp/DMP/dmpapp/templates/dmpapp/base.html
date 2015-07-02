@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}DMP{% endblock %}</title>
+</head>
+
+{% load staticfiles %}
+
+
+ 
+
+<body>
+<script src="{% static "static_jquery/js/jquery.js" %}"></script>
+<script src="{% static "static_jquery/js/jquery.min.js" %}"></script>
+<script src="{% static "static_jquery/js/jquery.min.map" %}"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script> 
+ 
+<script>
+ function myFunction() {
+	 if (window.jQuery) {alert("JQuery has loaded") }
+ 	
+ }
+ </script> 
+ 
+ <script>
+ 
+ $(function() {
+   $( ".datepicker" ).datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: "2015:2050",
+     dateFormat: "dd-mm-yy"
+     // You can put more options here.
+
+   });
+ });
+ </script>
+  </script>
+  
+  
+ <script>
+ function myFunction() {
+	 if (window.jQuery) {alert("hi") }
+ 	
+ }
+ </script> 
+
+
+    <div id="sidebar">
+        {% block header %}
+        
+      <img src="{% static "dmpapp/image001.gif" %}" alt="My image"/> 
+    
+    {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
