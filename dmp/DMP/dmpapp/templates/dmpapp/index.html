@@ -5,8 +5,7 @@
 {% block content %}
 
 {% if project_list %}
-    <h1>Welcome to the DMP. Here is a list of projects. </h1>
-    <h2>Shows only the projects for which {{ user }} is a member</h2>
+    <h2>Welcome to the DMP. Here is a list of your projects. </h2>
     <ul>
     {% for project in project_list %}
         <li><a href="/dmp/project/{{ project.id }}/">{{ project.name }}</a></li>

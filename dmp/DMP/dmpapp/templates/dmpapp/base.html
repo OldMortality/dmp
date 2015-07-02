@@ -36,8 +36,7 @@
    });
  });
  </script>
-  </script>
-  
+   
   
  <script>
  function myFunction() {
@@ -50,10 +49,12 @@
     <div id="sidebar">
         {% block header %}
         
-      <img src="{% static "dmpapp/image001.gif" %}" alt="My image"/> 
-    
-    {% endblock %}
+      		<img src="{% static "dmpapp/image001.gif" %}" alt="My image"/> 
+      		<h3>Kia Ora  {{ user }} <h3>
+    	{% endblock %}
     </div>
+    
+
 
     <div id="content">
         {% block content %}{% endblock %}

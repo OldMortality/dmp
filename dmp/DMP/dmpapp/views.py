@@ -77,6 +77,9 @@ def project_new(request):
 def project_get(request,pk):
     
     print("project_get")
+    if check_user_in_project(request,pk)==0:
+            return HttpResponseRedirect('/dmp/')  
+       
     project = Project.objects.get(id=pk)
     # save project to the context
     request.session['project_id']=pk
@@ -91,7 +94,10 @@ def project_post(request,pk=None):
      
         
     if pk is not None:
-        print("!!existing project")
+        print("existing project")
+        if check_user_in_project(request,pk)==0:
+            return HttpResponseRedirect('/dmp/')  
+       
         # existing project
         project = Project.objects.get(id=pk)
         # save project to the context
@@ -151,14 +157,28 @@ def dataset_new(request):
     this_project_id = request.GET.get('project_id')
     print("the current project is")
     print(this_project_id) 
+    
+    if check_user_in_project(request,this_project_id)==0:
+        return HttpResponseRedirect('/dmp/')  
+       
+    
     pr = Project.objects.get(id=this_project_id)
     data = {'name': "New"  ,'project': pr.id, 'owner': request.user.id}
     
     form = DatasetForm(data)
       
     return render(request,'dmpapp/updateds.html', {'form': form})
-    
-    
+
+def check_user_in_project(request,pid):
+    print("check that user is in project")  
+    qs = Project.objects.filter(id=pid).filter(member__name=request.user).order_by('name')
+    if not qs:
+        print("current user not in the members") 
+        return(0)   
+    else:
+        print("current user is a member of this project")
+        return(1)
+      
 @login_required
 def dataset_post(request,pk=None):
     
@@ -183,6 +203,11 @@ def dataset_post(request,pk=None):
         print(data)
         project = data['project']
         project_id = str(project.id)
+        
+        if check_user_in_project(request,project_id)==0:
+            return HttpResponseRedirect('/dmp/')  
+        # check that current user is a member of this project
+        
         form.save(commit=False)
         form.save()
         print("no errors. redirecting to dmp/datasets/?pid")
@@ -196,9 +221,14 @@ def dataset_post(request,pk=None):
         return render(request, 'dmpapp/updateds.html', {'form':form})
 
 
+
+
 def dataset_del(request,pk):
     
     project_id = request.GET.get('project_id')
+    if check_user_in_project(request,project_id)==0:
+        return HttpResponseRedirect('/dmp/')  
+       
     print("remove dataset" )
     print(pk)
     print(project_id)  
