@@ -1,3 +1,9 @@
+
+
+{% extends "dmpapp/base.html" %}
+
+{% block content %}
+
 {% if project_list %}
     <h1>Welcome to the DMP. Here is a list of projects. </h1>
     <h2>Shows only the projects for which {{ user }} is a member</h2>
@@ -13,3 +19,10 @@
 <form action="/dmp/project_new/"  {{ None }}  method="get">
    		<button type="submit" value="Submit">Add a new project</button>
 </form>
+
+<button type="button"
+		onclick="myFunction()">
+	Click here</button>
+
+{% endblock %}
+

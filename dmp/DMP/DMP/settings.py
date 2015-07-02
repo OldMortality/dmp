@@ -37,7 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dmpapp'
+    'django_static_jquery',
+    'dmpapp',
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,5 +114,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join('/Users/michel/git/gitrepository/dmp/DMP/dmpapp', 'static/dmpapp/')
 LOGIN_REDIRECT_URL = '/dmp/'
 LOGIN_URL = 'django.contrib.auth.views.login'

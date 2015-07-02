@@ -1,4 +1,7 @@
- 
+ {% extends "dmpapp/base.html" %}
+
+
+ {% block content %}
     <h1>Here is a list of Datasets for this project. {{ project_id }} </h1>
    
    <table style="width:100%">
@@ -13,3 +16,4 @@
     	<input type="hidden" name="project_id" value="{{ project_id }}" /> 
    		<button type="submit" value="Submit">Add a new dataset</button>
 	</form>	
+{% endblock %}

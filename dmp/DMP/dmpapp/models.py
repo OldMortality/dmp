@@ -1,8 +1,6 @@
 from django import forms
-from django.contrib.admin.widgets import AdminDateWidget
 from django.db import models 
-from django.forms.models import ModelForm, ModelMultipleChoiceField
-
+from django.forms.models import ModelForm
 
 # test 1
 class Person(models.Model):
@@ -76,14 +74,29 @@ class DatasetForm(ModelForm):
                   'format','keywords','citations','host_department','location', 
                   'number_of_files','space','retention_end_date','release_date',  
                   'access_permission','method_of_sharing']  
+        widgets = { 
+                   'start_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'end_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'coverage_start_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'coverage_end_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'retention_end_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'release_date': forms.DateInput(attrs={'class':'datepicker'}),
+      
+                  }  
+      
 
        
 class ProjectForm(ModelForm):
     class Meta:
         model = Project        
         #toppings = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
-        fields = ['id','name','principal', 'start_date', 'end_date', 'description',
-                  'funding_source','funding_allocation','research_code','member']  
+        fields = ('id','name','principal', 'start_date', 'end_date', 'description',
+                  'funding_source','funding_allocation','research_code','member')
+        widgets = { 
+                   'start_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   'end_date': forms.DateInput(attrs={'class':'datepicker'}),
+                   
+                  }  
       
     
 

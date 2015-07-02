@@ -1,4 +1,9 @@
-<script type="text/javascript" src="/admin/jsi18n/"></script>
+{% extends "dmpapp/base.html" %}
+
+
+ {% block content %}
+ 
+   
 <h1>update_project.html</h1>
 <h1> {{ form.id }} </h1>
   
@@ -6,6 +11,7 @@
   
 
     {% csrf_token %}
+      
     
     {{ form }}
     {% if form.start_date.errors %}
@@ -15,9 +21,15 @@
             {% endif %}
     <input type="submit" value="Save" />
 
+	<button type="button"
+		onclick="myFunction()">
+	Click here</button>
+
+
 </form>
 <!--  show link to datasets, unless we are creating a new project -->
 {% if form.id  %}            
  <a href="/dmp/datasets?pid={{ form.id }}">View datasets for this project</a>
 {% endif %}            
  
+ {% endblock %}
