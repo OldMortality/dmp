@@ -1,17 +1,17 @@
- {% extends "dmpapp/base.html" %}
-
-
- {% block content %}
-    <h1>Here is a list of Datasets for this project. {{ project_id }} </h1>
+{% extends "dmpapp/base.html" %}
+{% block content %}
+ 
+ 	<h3>datasetlist.html</h3>
+    <h3>Here is a list of Datasets for this project. {{ project_id }} </h3>
    
-   <table style="width:100%">
+   <table style="width:80%">
     {% for ds in dataset_list %}
     <tr>
         <td><a href="/dmp/dataset/{{ ds.id }}/">{{ ds.name }}</td> 
         <td><a href="/dmp/dataset_del/{{ ds.id }}/?project_id={{ project_id }}"> Remove</td>
     </tr>    
     {% endfor %}
-    
+   	</table> 
     <form action="/dmp/dataset_new/" method="get">
     	<input type="hidden" name="project_id" value="{{ project_id }}" /> 
    		<button type="submit" value="Submit">Add a new dataset</button>

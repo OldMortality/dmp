@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<style>
+.dmpheader {
+	
+	background: #133569;
+	height: 130px;
+	color :white;
+}
+
+.dmpcontent {
+	height: 700px;
+	overflow:scroll; 
+
+}
+
+.dmpfooter {
+	
+	background: #133569;
+	height: 100px;
+}
+
+
+</style>
+
+{% load staticfiles %}
+
 <head>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/dmpstyle.css" type="text/css"/> 				 
     <title>{% block title %}DMP{% endblock %}</title>
 </head>
 
-{% load staticfiles %}
 
 
  
@@ -30,9 +55,10 @@
      changeMonth: true,
      changeYear: true,
      yearRange: "2015:2050",
-     dateFormat: "dd-mm-yy",
+     dateFormat: "yy-mm-dd",
      autoSize : true, 
      showOn : "both",
+     currentText: "Now",
      
      // You can put more options here.
 
@@ -49,7 +75,7 @@
  </script> 
 
 
-    <div id="sidebar">
+    <div class="dmpheader">
         {% block header %}
         
       		<img src="{% static "dmpapp/image001.gif" %}" alt="My image"/> 
@@ -59,8 +85,19 @@
     
 
 
-    <div id="content">
-        {% block content %}{% endblock %}
+    <div class="dmpcontent">
+        {% block content %}
+        
+        {% endblock %}
     </div>
+    
+    <div class="dmpfooter">
+        {% block footer %}
+        
+        
+      		
+    	{% endblock %}
+    </div>
+    
 </body>
 </html>
