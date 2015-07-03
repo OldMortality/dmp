@@ -45,7 +45,8 @@ class IndexView(LoggedInMixin,generic.ListView):
         
         print("getting the projects" )
         print(self.request.user)
-        projects = Project.objects.filter(member__name=self.request.user).order_by('name')
+        #projects = Project.objects.filter(member__name=self.request.user).order_by('name')
+        projects = Project.objects.filter(member__email=email).order_by('name')
         print("found this many projects: " + str(projects.count()))
         
         return projects
@@ -213,7 +214,9 @@ def dataset_new(request):
 
 def check_user_in_project(request,pid):
     print("check that user is in project")  
-    qs = Project.objects.filter(id=pid).filter(member__name=request.user).order_by('name')
+    email = request.session['email']
+    print("email:" + email)
+    qs = Project.objects.filter(id=pid).filter(member__email=email)
     if not qs:
         print("current user not in the members") 
         return(0)   
