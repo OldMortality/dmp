@@ -8,7 +8,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from dmpapp.models import Dataset, DatasetForm, ProjectForm, Person
+from dmpapp.models import Dataset, DatasetForm, ProjectForm, Person,\
+    ProjectMemberForm
 from dmpapp.models import Project
 
 
@@ -26,8 +27,28 @@ class IndexView(LoggedInMixin,generic.ListView):
     template_name = 'dmpapp/index.html'
     context_object_name = 'project_list'
     
+    
+    
+    
     def get_queryset(self):
-        return Project.objects.filter(member__name=self.request.user).order_by('name')
+        user_name = self.request.user
+       
+        # get the email address for the current user
+        # this will need to come from SAML later on. 
+        this_person = Person.objects.filter(name= user_name)[:1]
+        if (this_person.count() > 0):
+            email = this_person[0].email
+        print(email)
+        # store it in the session
+        self.request.session['email']=email
+    
+        
+        print("getting the projects" )
+        print(self.request.user)
+        projects = Project.objects.filter(member__name=self.request.user).order_by('name')
+        print("found this many projects: " + str(projects.count()))
+        
+        return projects
         #return Project.objects.all()
         #return project_list = Project.objects.filter(name__startswith=this_email)
      
@@ -40,6 +61,12 @@ class IndexView(LoggedInMixin,generic.ListView):
     
 class ProjectDetailView(LoggedInMixin,generic.DetailView):
     
+    ##
+    ## Get email address for the current user, and store this in the session
+     
+    ##this_person = Person.objects.filter(name = request.user)
+    #print("this person has email address " + this_person.email)
+    
     model = Project
     template_name = 'dmpapp/projectdetail.html'
     def get_queryset(self):
@@ -51,18 +78,22 @@ class DatasetView(LoggedInMixin,generic.ListView):
     template_name = 'dmpapp/datasetlist.html'
     context_object_name = 'dataset_list'
     
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(DatasetView, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['project_id'] = self.request.GET.get("pid")
-        return context
-    
     def get_queryset(self):
+        print("getting the projects")
         project_id = self.request.GET.get("pid")
         return Dataset.objects.filter(project__id=project_id).filter(
                                       project__member__name=self.request.user)  
-        
+
+    
+    #def get_context_data(self, **kwargs):
+    #    # Call the base implementation first to get a context
+    #    context = super(DatasetView, self).get_context_data(**kwargs)
+    #    # Add in a QuerySet of all the books
+    #    context['project_id'] = self.request.GET.get("pid")
+    #   
+    #    return context
+    
+            
 
 
 
@@ -82,8 +113,19 @@ def project_get(request,pk):
        
     project = Project.objects.get(id=pk)
     # save project to the context
-    request.session['project_id']=pk
-    form = ProjectForm(instance=project)
+    #request.session['project_id']=pk
+    
+    # Show the members only if current user is the principal investigator
+    # for this project.
+    if (project.principal.email == request.session.get('email')):
+        print("user is the principal")
+        form = ProjectMemberForm(instance=project)
+    else: 
+        print("user is not the principal")
+        print(project.principal.email)
+        print(request.user.email)
+        form = ProjectForm(instance=project)
+    
     form.id = project.id
     return render(request,'dmpapp/update_project.html', {'form': form})
     

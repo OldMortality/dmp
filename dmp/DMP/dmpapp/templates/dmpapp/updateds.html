@@ -7,7 +7,7 @@
 
 <form action="/dmp/datasetpost/{{ form.id }}/" method="POST">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_p}}
     {% if form.errors %}
     	<h1>errors</h1>
     {% for field in form %}

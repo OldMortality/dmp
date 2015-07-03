@@ -81,7 +81,7 @@ class DatasetForm(ModelForm):
                    'coverage_end_date': forms.DateInput(attrs={'class':'datepicker'}),
                    'retention_end_date': forms.DateInput(attrs={'class':'datepicker'}),
                    'release_date': forms.DateInput(attrs={'class':'datepicker'}),
-      
+                   'project' : forms.HiddenInput(),
                   }  
       
 
@@ -91,13 +91,16 @@ class ProjectForm(ModelForm):
         model = Project        
         #toppings = forms.ModelMultipleChoiceField(queryset=Person.objects.all())
         fields = ('id','name','principal', 'start_date', 'end_date', 'description',
-                  'funding_source','funding_allocation','research_code','member')
+                  'funding_source','funding_allocation','research_code')
         widgets = { 
                    'start_date': forms.DateInput(attrs={'class':'datepicker'}),
                    'end_date': forms.DateInput(attrs={'class':'datepicker'}),
                    
                   }  
-      
+        
+class ProjectMemberForm(ProjectForm):
+        class Meta(ProjectForm.Meta):
+            fields = ProjectForm.Meta.fields + ('member',)
     
 
     

@@ -13,7 +13,7 @@
     {% csrf_token %}
       
     
-    {{ form }}
+    {{ form.as_p }}
     {% if form.start_date.errors %}
               <span class="help-block">
                 {% for error in form.start_date.errors %}{{ error }}{% endfor %}
