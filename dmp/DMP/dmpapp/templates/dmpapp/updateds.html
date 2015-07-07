@@ -3,8 +3,7 @@
 
 {% block content %}
 
-<h3>updateds.html</h3>
-
+ 
 <form action="/dmp/datasetpost/{{ form.id }}/" method="POST">
     {% csrf_token %}
     {{ form.as_p}}
