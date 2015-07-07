@@ -131,8 +131,10 @@ def project_get(request,pk):
 def project_post(request,pk=None):
     
     print("project_post")
+    
+    
      
-        
+    show_members = False;   
     if pk is not None:
         print("existing project")
         if check_user_in_project(request,pk)==0:
@@ -140,29 +142,52 @@ def project_post(request,pk=None):
        
         # existing project
         project = Project.objects.get(id=pk)
+        
+        
         # save project to the context
         request.session['project_id']=pk
-        form = ProjectForm(request.POST,instance=project)
+        
+        # Is the current user the principal of this project?
+        if (project.principal.email == request.session.get('email')):
+            print("user is the principal")
+            show_members = True
+            form = ProjectMemberForm(request.POST,instance=project)    
+        else:
+            print("user is NOT the principal")
+            form = ProjectForm(request.POST,instance=project)
         form.id = project.id
     
     else:
         print("!!new project") 
         # new project
         project = None
-        form = ProjectForm()
-        form = ProjectForm(request.POST,instance=project)
+        #form = ProjectForm()
+        if (project.principal.email == request.session.get('email')):
+            print("user is the principal")
+            show_members = True
+            form = ProjectMemberForm(request.POST,instance=project)    
+        else:
+            print("user is NOT the principal")
+            form = ProjectForm(request.POST,instance=project)
+        
         #print(form)
         # check whether it's valid:
     
     if form.is_valid():
         print("form is valid")
         data = form.cleaned_data
-        project_members = data['member']
+        if (show_members):
+            print("showing members of the project")
+            project_members = data['member']
         # to do: make this into a validator
-        x = project_members.filter(name=request.user)
-        if not x:
-            print("current user not in the members")
-        else:   
+            x = project_members.filter(name=request.user)
+            if not x:
+                print("current user not in the members")
+            else:
+                form.save()
+                print("update done xx")
+        else:
+            print("not showing members of the project")   
             form.save()
             print("update done xx")
         
