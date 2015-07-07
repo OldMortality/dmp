@@ -183,9 +183,18 @@ def dataset_get(request,pk):
     print(request.method)
     ds = Dataset.objects.get(id=pk)
     print("id is " + pk)
+    
+    project_id = ds.project.id
+    print("project id is " + str(project_id))
+    
+    this_project = Project.objects.get(id=project_id)
+    print("this project: " + this_project.name)
     form = DatasetForm(instance=ds)
+    form.project = this_project
+    
+    #xxx
     form.id = ds.id
-    return render(request,'dmpapp/updateds.html', {'form': form})
+    return render(request,'dmpapp/updateds.html', {'form': form, 'pid':project_id})
     
         
 
@@ -203,11 +212,12 @@ def dataset_new(request):
        
     
     pr = Project.objects.get(id=this_project_id)
+    print("pr_id " + str(pr.id))
     data = {'name': "New"  ,'project': pr.id, 'owner': request.user.id}
     
     form = DatasetForm(data)
       
-    return render(request,'dmpapp/updateds.html', {'form': form})
+    return render(request,'dmpapp/updateds.html', {'form': form, 'pid':this_project_id})
 
 def check_user_in_project(request,pid):
     print("check that user is in project")  

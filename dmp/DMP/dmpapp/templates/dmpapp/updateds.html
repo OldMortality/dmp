@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>updateds.html</h1>
+<h3>updateds.html {{ pid }}</h3>
 
 <form action="/dmp/datasetpost/{{ form.id }}/" method="POST">
     {% csrf_token %}
@@ -27,5 +27,10 @@
     <input type="submit" value="Save" />
             
 </form>
+
+ 
+ <button onclick="location.href = '/dmp/datasets/?pid={{ pid }}';" id="myButton" class="float-left submit-button" >Cancel</button>
+ 
+
 
 {% endblock %}
