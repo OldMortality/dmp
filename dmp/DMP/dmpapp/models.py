@@ -87,6 +87,12 @@ class DatasetForm(ModelForm):
 
        
 class ProjectForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['name'].widget.attrs['readonly'] = True
+            self.fields['principal'].widget.attrs['disabled'] = True
     class Meta:
         model = Project        
         fields = ('id','name','principal', 'start_date', 'end_date', 'description',
@@ -96,14 +102,17 @@ class ProjectForm(ModelForm):
                    'end_date': forms.DateInput(attrs={'class':'datepicker'}),
                    
                   } 
-    ## does not work  
-    def __init__(self, *args, **kwargs):
-        super(ProjectForm, self).__init__(*args, **kwargs)
-        instance = getattr(self, 'instance', None)
-        if instance and instance.pk:
-            self.fields['principal'].widget.attrs['readonly'] = True
-   
+        
+        
+        
 class ProjectMemberForm(ProjectForm):
+        def __init__(self, *args, **kwargs):
+            super(ProjectForm, self).__init__(*args, **kwargs)
+            instance = getattr(self, 'instance', None)
+            if instance and instance.pk:
+                self.fields['name'].widget.attrs['readonly'] = False
+                self.fields['principal'].widget.attrs['disabled'] = False
+    
         class Meta(ProjectForm.Meta):
             fields = ProjectForm.Meta.fields + ('member',)
     
