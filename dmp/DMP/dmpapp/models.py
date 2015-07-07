@@ -8,7 +8,7 @@ class Person(models.Model):
     email = models.CharField(max_length=40,null=True,blank=True)
     phone = models.CharField(max_length=40,null=True,blank=True)
     def __str__(self):              
-        return self.name
+        return self.name  ## + ":" + str(self.id)
    
     
 class Project(models.Model):

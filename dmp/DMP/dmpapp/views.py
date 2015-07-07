@@ -38,7 +38,7 @@ class IndexView(LoggedInMixin,generic.ListView):
         this_person = Person.objects.filter(name= user_name)[:1]
         if (this_person.count() > 0):
             email = this_person[0].email
-        print(email)
+        print("storing this email in the session: " + email)
         # store it in the session
         self.request.session['email']=email
     
@@ -212,8 +212,11 @@ def dataset_new(request):
        
     
     pr = Project.objects.get(id=this_project_id)
-    print("pr_id " + str(pr.id))
-    data = {'name': "New"  ,'project': pr.id, 'owner': request.user.id}
+    print("request user " + str(request.user))
+    
+    this_user = Person.objects.get(name=request.user)
+    
+    data = {'name': "New"  ,'project': pr.id, 'owner': this_user.id}
     
     form = DatasetForm(data)
       
