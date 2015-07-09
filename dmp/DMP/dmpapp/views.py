@@ -99,7 +99,12 @@ class DatasetView(LoggedInMixin,generic.ListView):
 def project_new(request):
     
     print("project_new")
-    form = ProjectForm()
+    
+    this_user = Person.objects.get(name=request.user)
+    print("this user:" + str(this_user))
+    data = {'name': "New"  ,'principal':  this_user.id}
+    
+    form = ProjectMemberForm(data)
     return render(request,'dmpapp/update_project.html', {'form': form})
 
 @login_required
@@ -154,6 +159,8 @@ def project_post(request,pk=None):
             form = ProjectMemberForm(request.POST,instance=project)    
         else:
             print("user is NOT the principal")
+            print("user is: "+str(request.session.get('email')))
+            print("principal is:"+ project.principal.email)
             form = ProjectForm(request.POST,instance=project)
         form.id = project.id
     
@@ -162,13 +169,11 @@ def project_post(request,pk=None):
         # new project
         project = None
         #form = ProjectForm()
-        if (project.principal.email == request.session.get('email')):
-            print("user is the principal")
-            show_members = True
-            form = ProjectMemberForm(request.POST,instance=project)    
-        else:
-            print("user is NOT the principal")
-            form = ProjectForm(request.POST,instance=project)
+        #if (project.principal.email == request.session.get('email')):
+        #    print("user is the principal")
+        #    show_members = True
+        form = ProjectMemberForm(request.POST,instance=project)    
+        
         
         #print(form)
         # check whether it's valid:
